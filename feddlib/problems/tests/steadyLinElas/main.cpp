@@ -71,9 +71,10 @@ typedef default_no NO;
 using namespace FEDD;
 using namespace Teuchos;
 using namespace std;
+
 int main(int argc, char *argv[])
 {
-
+    // Teuchos::RCP = smart reference counting pointer class
     typedef MeshUnstructured<SC,LO,GO,NO> MeshUnstr_Type;
     typedef RCP<MeshUnstr_Type> MeshUnstrPtr_Type;
     typedef Domain<SC,LO,GO,NO> Domain_Type;
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
     typedef RCP<BlockMultiVector_Type> BlockMultiVectorPtr_Type;
 
     Teuchos::oblackholestream blackhole;
-    //Initialize MPI
+    // Initialize MPI
     Teuchos::GlobalMPISession mpiSession(&argc,&argv,&blackhole);
 
     Teuchos::RCP<const Teuchos::Comm<int> > comm = Xpetra::DefaultPlatform::getDefaultPlatform().getComm();
@@ -103,10 +104,13 @@ int main(int argc, char *argv[])
     myCLP.setOption("ulib",&ulib_str,"Underlying lib");
     // int dim = 2;
     // myCLP.setOption("dim",&dim,"dim");
+    // Parameters for problem setup
     string xmlProblemFile = "parametersProblem.xml";
     myCLP.setOption("problemfile",&xmlProblemFile,".xml file with Inputparameters.");
+    // Parameters for preconditioner (in general we use domain decomposition pc)
     string xmlPrecFile = "parametersPrec.xml";
     myCLP.setOption("precfile",&xmlPrecFile,".xml file with Inputparameters.");
+    // Parameters linear solver
     string xmlSolverFile = "parametersSolver.xml";
     myCLP.setOption("solverfile",&xmlSolverFile,".xml file with Inputparameters.");
 
@@ -127,20 +131,25 @@ int main(int argc, char *argv[])
 
     {
         //Set ParameterLists
+        // Parameters for problem setup
         ParameterListPtr_Type parameterListProblem = Teuchos::getParametersFromXmlFile(xmlProblemFile);
+        // Parameters for preconditioner (in general we use domain decomposition pc)
         ParameterListPtr_Type parameterListPrec    = Teuchos::getParametersFromXmlFile(xmlPrecFile);
+        // Parameters linear solver
         ParameterListPtr_Type parameterListSolver  = Teuchos::getParametersFromXmlFile(xmlSolverFile);
 
         ParameterListPtr_Type parameterListAll(new Teuchos::ParameterList(*parameterListProblem)) ;
         parameterListAll->setParameters(*parameterListPrec);
         parameterListAll->setParameters(*parameterListSolver);
 
-        //Set Parameter 
+        // Set Parameter 
         int 		dim		= parameterListProblem->sublist("Parameter").get("Dimension",2);
         string		meshType    	= parameterListProblem->sublist("Parameter").get("Mesh Type","structured");
         string		meshName    	= parameterListProblem->sublist("Parameter").get("Mesh Name","dfg_fsi_solid.mesh");
         string		meshDelimiter   = parameterListProblem->sublist("Parameter").get("Mesh Delimiter"," ");
         int             n;
+        // h = size of finite element
+        // H = size of subdomain
         int 		m		= parameterListProblem->sublist("Parameter").get("H/h",5);
         string          FEType          = parameterListProblem->sublist("Parameter").get("Discretization","P2");
         // Set Number of ranks for coarse problem 
@@ -154,7 +163,7 @@ int main(int argc, char *argv[])
         DomainPtr_Type domain;
 
         // ########################
-        //Build P1 and P2 grid
+        // Build P1 and P2 grid
         // ########################
         {
             Teuchos::TimeMonitor totalTimeMonitor(*totalTime);
