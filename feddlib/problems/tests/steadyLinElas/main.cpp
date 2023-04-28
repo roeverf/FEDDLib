@@ -8,7 +8,7 @@
 #include "feddlib/problems/specific/LinElas.hpp"
 #include <Teuchos_GlobalMPISession.hpp>
 #include <Xpetra_DefaultPlatform.hpp>
-
+//Define Right-Hand-Sides Functions
 void zeroDirichlet(double* x, double* res, double t, const double* parameters)
 {
     res[0] = 0.;
@@ -91,12 +91,14 @@ int main(int argc, char *argv[])
     typedef RCP<BlockMultiVector_Type> BlockMultiVectorPtr_Type;
 
     Teuchos::oblackholestream blackhole;
+    //Initialize MPI
     Teuchos::GlobalMPISession mpiSession(&argc,&argv,&blackhole);
 
     Teuchos::RCP<const Teuchos::Comm<int> > comm = Xpetra::DefaultPlatform::getDefaultPlatform().getComm();
 
     // Command Line Parameters
     Teuchos::CommandLineProcessor myCLP;
+    // Set Trilinos Linear Algebra Library 
     string ulib_str = "Tpetra";
     myCLP.setOption("ulib",&ulib_str,"Underlying lib");
     // int dim = 2;
@@ -124,6 +126,7 @@ int main(int argc, char *argv[])
     }
 
     {
+        //Set ParameterLists
         ParameterListPtr_Type parameterListProblem = Teuchos::getParametersFromXmlFile(xmlProblemFile);
         ParameterListPtr_Type parameterListPrec = Teuchos::getParametersFromXmlFile(xmlPrecFile);
         ParameterListPtr_Type parameterListSolver = Teuchos::getParametersFromXmlFile(xmlSolverFile);
@@ -132,6 +135,7 @@ int main(int argc, char *argv[])
         parameterListAll->setParameters(*parameterListPrec);
         parameterListAll->setParameters(*parameterListSolver);
 
+        //Set Parameter 
         int 		dim				= parameterListProblem->sublist("Parameter").get("Dimension",2);
         string		meshType    	= parameterListProblem->sublist("Parameter").get("Mesh Type","structured");
         string		meshName    	= parameterListProblem->sublist("Parameter").get("Mesh Name","dfg_fsi_solid.mesh");
@@ -139,10 +143,10 @@ int main(int argc, char *argv[])
         int         n;
         int 		m				= parameterListProblem->sublist("Parameter").get("H/h",5);
         string      FEType        = parameterListProblem->sublist("Parameter").get("Discretization","P2");
-
+        // Set Number of ranks for coarse problem 
         int numProcsCoarseSolve = parameterListProblem->sublist("General").get("Mpi Ranks Coarse",0);
         int size = comm->getSize() - numProcsCoarseSolve;
-
+	// Timers
         Teuchos::RCP<Teuchos::Time> totalTime(Teuchos::TimeMonitor::getNewCounter("main: Total Time"));
         Teuchos::RCP<Teuchos::Time> buildMesh(Teuchos::TimeMonitor::getNewCounter("main: Build Mesh"));
         Teuchos::RCP<Teuchos::Time> solveTime(Teuchos::TimeMonitor::getNewCounter("main: Solve problem time"));
@@ -150,7 +154,7 @@ int main(int argc, char *argv[])
         DomainPtr_Type domain;
 
         // ########################
-        // P1 und P2 Gitter bauen
+        //Build P1 and P2 grid
         // ########################
         {
             Teuchos::TimeMonitor totalTimeMonitor(*totalTime);
@@ -203,9 +207,9 @@ int main(int argc, char *argv[])
             }
 
             // ######################
-            // Setup fuer die RW
+            // Setup for BC
             // ######################
-            // Die Null gibt an auf welchem Block die RW gesetzt werden sollen; hier gibt es nur einen
+            // The zero indicates on which block the BC are to be set; here there is only one
             Teuchos::RCP<BCBuilder<SC,LO,GO,NO> > bcFactory( new BCBuilder<SC,LO,GO,NO>( ) );
             
             if (meshType == "structured") {
@@ -221,13 +225,13 @@ int main(int argc, char *argv[])
                     bcFactory->addBC(zeroDirichlet3D, 1, 0, domain, "Dirichlet", dim);
             }
 
-            // LinElas Objekt erstellen
+            // Construct Problem Class
             LinElas<SC,LO,GO,NO> LinElas( domain, FEType, parameterListAll );
 
             {
                 Teuchos::TimeMonitor solveTimeMonitor(*solveTime);
-
-                LinElas.addBoundaries(bcFactory); // Dem Problem RW hinzufuegen
+		//Add BC Conditions
+                LinElas.addBoundaries(bcFactory); 
 
                 if (dim==2)
                     LinElas.addRhsFunction( rhs2D );
@@ -240,17 +244,17 @@ int main(int argc, char *argv[])
                 LinElas.addParemeterRhs( force );
                 LinElas.addParemeterRhs( degree );
                 // ######################
-                // Matrix assemblieren, RW setzen und System loesen
+                // Assemble Matrix, Set BC, Solve System
                 // ######################
                 LinElas.initializeProblem();
                 LinElas.assemble();                
-                LinElas.setBoundaries(); // In der Klasse Problem
+                LinElas.setBoundaries();
                 LinElas.solve();
 
             }
 
             // ######################
-            // Exporter fuer die Loesung
+            // Export Solution
             // ######################
 
             if ( parameterListAll->sublist("General").get("ParaViewExport",false) ) {
@@ -268,9 +272,9 @@ int main(int argc, char *argv[])
             }
 
             // ######################
-            // Mesh-Bewegung testen
+            // Test for Grid Movement
             // ######################
-            // Setze die aktuelle (nicht-deformierte) Konfiguration als Referenzkonfiguration
+            // set non deformed grid as reference
             domain->setReferenceConfiguration();
 
             typedef MultiVector<SC,LO,GO,NO> MultiVector_Type;
@@ -282,10 +286,10 @@ int main(int argc, char *argv[])
 
             displacementRepeated->importFromVector( displacementUniqueConst );
             MultiVectorPtr_Type displacementUnique = rcp_const_cast<MultiVector_Type>(displacementUniqueConst);
-            // Verschiebe das Gitter
+            // Move Grid
             domain->moveMesh(displacementUnique, displacementRepeated);
 
-            // Exportiere die berechnete Loesung, jedoch auf dem schon deformierten Gitter (die Loesung ist egal. Wir wollen nur das Gitter haben)
+            //Export solution to deformed grid.
             if( parameterListAll->sublist("General").get("ParaViewExport",false) )
             {
                 Teuchos::RCP<ExporterParaView<SC,LO,GO,NO> > exPara(new ExporterParaView<SC,LO,GO,NO>());

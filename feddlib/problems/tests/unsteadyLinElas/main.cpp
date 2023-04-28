@@ -25,6 +25,8 @@
 #include "feddlib/problems/specific/LinElas.hpp"
 #include <Teuchos_GlobalMPISession.hpp>
 #include <Xpetra_DefaultPlatform.hpp>
+
+//Define Right-Hand-Sides
 void rhs2D(double* x, double* res, double* parameters){
     
     res[0] = 0.;
@@ -83,6 +85,8 @@ typedef default_no NO;
 using namespace FEDD;
 using namespace Teuchos;
 using namespace std;
+
+//Main Function
 int main(int argc, char *argv[])
 {
 
@@ -103,16 +107,19 @@ int main(int argc, char *argv[])
     typedef RCP<BlockMultiVector_Type> BlockMultiVectorPtr_Type;
 
     Teuchos::oblackholestream blackhole;
+    //Initialize MPI
     Teuchos::GlobalMPISession mpiSession(&argc,&argv,&blackhole);
 
     Teuchos::RCP<const Teuchos::Comm<int> > comm = Xpetra::DefaultPlatform::getDefaultPlatform().getComm();
 
     // Command Line Parameters
     Teuchos::CommandLineProcessor myCLP;
+    // Set Trilinos Linear Algebra Library 
     string ulib_str = "Tpetra";
     myCLP.setOption("ulib",&ulib_str,"Underlying lib");
     // int dim = 2;
-    // myCLP.setOption("dim",&dim,"dim");
+    // myCLP.setOption("dim",&dim,"dim");#
+    // Parse Parameters
     string xmlProblemFile = "parametersProblem.xml";
     myCLP.setOption("problemfile",&xmlProblemFile,".xml file with Inputparameters.");
     string xmlPrecFile = "parametersPrec.xml";
@@ -129,7 +136,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    bool verbose (comm->getRank() == 0); // Print-Ausgaben nur auf rank = 0
+    bool verbose (comm->getRank() == 0); // Prints only on rank = 0
     if (verbose)
     {
         cout << "###############################################################" <<endl;
@@ -137,6 +144,7 @@ int main(int argc, char *argv[])
         cout << "###############################################################" <<endl;
     }
     {
+        //Set ParameterLists
         ParameterListPtr_Type parameterListProblem = Teuchos::getParametersFromXmlFile(xmlProblemFile);
         ParameterListPtr_Type parameterListPrec = Teuchos::getParametersFromXmlFile(xmlPrecFile);
         ParameterListPtr_Type parameterListSolver = Teuchos::getParametersFromXmlFile(xmlSolverFile);
@@ -145,17 +153,20 @@ int main(int argc, char *argv[])
         parameterListAll->setParameters(*parameterListPrec);
         parameterListAll->setParameters(*parameterListSolver);
 
-        int 		dim				= parameterListProblem->sublist("Parameter").get("Dimension",2);
-        string      precMethod      = parameterListProblem->sublist("General").get("Preconditioner Method","Monolithic");
+        //Set Parameter 
+        int 		dim	        = parameterListProblem->sublist("Parameter").get("Dimension",2);
+        string          precMethod      = parameterListProblem->sublist("General").get("Preconditioner Method","Monolithic");
         string		meshName    	= parameterListProblem->sublist("Parameter").get("Mesh Name","dfg_fsi_solid.mesh");
         string		meshDelimiter   = parameterListProblem->sublist("Parameter").get("Mesh Delimiter"," ");
-        int         n;
-        int			zeroDirID       = parameterListProblem->sublist("Parameter").get("Homogeneous Dirichlet Flag",1); // Dirichlet-Flag in .mesh
-        string      discType        = parameterListProblem->sublist("Parameter").get("Discretization","P2");
-        std::string bcType = parameterListProblem->sublist("Parameter").get("BC Type","volumeY");
-        int numProcsCoarseSolve = parameterListProblem->sublist("General").get("Mpi Ranks Coarse",0);
+        int             n;
+        int	       eroDirID        = parameterListProblem->sublist("Parameter").get("Homogeneous Dirichlet Flag",1); // Dirichlet-Flag in .mesh
+        string         discType        = parameterListProblem->sublist("Parameter").get("Discretization","P2");
+        std::string    bcType          = parameterListProblem->sublist("Parameter").get("BC Type","volumeY");
+        // Set Number of ranks for coarse problem 
+        int numProcsCoarseSolve        = parameterListProblem->sublist("General").get("Mpi Ranks Coarse",0);
         int size = comm->getSize() - numProcsCoarseSolve;
 
+	// Timers
         Teuchos::RCP<Teuchos::Time> totalTime(Teuchos::TimeMonitor::getNewCounter("main: Total Time"));
         Teuchos::RCP<Teuchos::Time> buildMesh(Teuchos::TimeMonitor::getNewCounter("main: Build Mesh"));
         Teuchos::RCP<Teuchos::Time> solveTime(Teuchos::TimeMonitor::getNewCounter("main: Solve problem time"));
@@ -164,7 +175,7 @@ int main(int argc, char *argv[])
         DomainPtr_Type domainP2;
 
         // ########################
-        // P1 und P2 Gitter bauen
+        // Build P1 and P2 grid
         // ########################
         {
             Teuchos::TimeMonitor totalTimeMonitor(*totalTime);
@@ -175,7 +186,7 @@ int main(int argc, char *argv[])
                     cout << "-- Building Mesh ..." << flush;
                 }
                 
-                // P1-Gitter bauen
+                // P1-Grid
                 domainP1.reset( new Domain_Type( comm, dim ) );
 
                 MeshPartitioner_Type::DomainPtrArray_Type domainP1Array(1);
@@ -186,9 +197,9 @@ int main(int argc, char *argv[])
                 
                 partitionerP1.readAndPartition();
                 
-                // P2-Giter bauen
+                // P2-Grid
                 domainP2.reset( new Domain_Type( comm, dim ) );
-//                domainP2->buildP2ofP1Domain(domainP1);
+//              domainP2->buildP2ofP1Domain(domainP1);
                 
                 if(verbose)
                 {
@@ -197,7 +208,7 @@ int main(int argc, char *argv[])
             }
 
             // ########################
-            // P1 oder P2 Gitter waehlen
+            // Choose P1 or P2 Grid
             // ########################
             DomainPtr_Type domain;
             if(!discType.compare("P2"))
@@ -218,9 +229,9 @@ int main(int argc, char *argv[])
             }
 
             // ######################
-            // Setup fuer die RW
+            // Setup for BC
             // ######################
-            // Die Null gibt an auf welchem Block die RW gesetzt werden sollen; hier gibt es nur einen
+            // The zero indicates on which block the BC are to be set; here there is only one
             Teuchos::RCP<BCBuilder<SC,LO,GO,NO> > bcFactory( new BCBuilder<SC,LO,GO,NO>( ) );
             if(dim == 2)
             {
@@ -230,11 +241,12 @@ int main(int argc, char *argv[])
             {
                 bcFactory->addBC(zeroDirichlet3D, zeroDirID, 0, domain, "Dirichlet", dim);
             }
-
+            // Construct Problem Class
             LinElas<SC,LO,GO,NO> LinElas(domain,discType,parameterListAll);
 
             domain->info();
             LinElas.info();
+            // Set BC for Problem
             if (bcType=="volumeY"){
                 if (dim == 2)
                     LinElas.addRhsFunction( rhs2D );
@@ -248,24 +260,23 @@ int main(int argc, char *argv[])
             double finalTimeRamp = parameterListAll->sublist("Timestepping Parameter").get("Final time force",0.1);
             double degree = 0;
             
+            // Pass ParameterLists to Problem
             LinElas.addParemeterRhs( force );
             LinElas.addParemeterRhs( finalTimeRamp );
             LinElas.addParemeterRhs( degree );
             
             // LinElas Objekt erstellen
 
-            // TODO: Keine Ahnung wieso auskommentieren?
+
             // {
             //     Teuchos::TimeMonitor solveTimeMonitor(*solveTime);
-
-                LinElas.addBoundaries(bcFactory); // Dem Problem RW hinzufuegen
-                
+		
+		// Add BC Conditions
+                LinElas.addBoundaries(bcFactory); 
+                // Initialize Problem
                 LinElas.initializeProblem();
-                // Matrizen assemblieren
+                // Assemble Matrix
                 LinElas.assemble();
-
-                // Wahrscheinlich nicht noetig
-                // LinElas.SetBoundariesRHS();
 
                 // ######################
                 // Zeitintegration
