@@ -128,24 +128,24 @@ int main(int argc, char *argv[])
     {
         //Set ParameterLists
         ParameterListPtr_Type parameterListProblem = Teuchos::getParametersFromXmlFile(xmlProblemFile);
-        ParameterListPtr_Type parameterListPrec = Teuchos::getParametersFromXmlFile(xmlPrecFile);
-        ParameterListPtr_Type parameterListSolver = Teuchos::getParametersFromXmlFile(xmlSolverFile);
+        ParameterListPtr_Type parameterListPrec    = Teuchos::getParametersFromXmlFile(xmlPrecFile);
+        ParameterListPtr_Type parameterListSolver  = Teuchos::getParametersFromXmlFile(xmlSolverFile);
 
         ParameterListPtr_Type parameterListAll(new Teuchos::ParameterList(*parameterListProblem)) ;
         parameterListAll->setParameters(*parameterListPrec);
         parameterListAll->setParameters(*parameterListSolver);
 
         //Set Parameter 
-        int 		dim				= parameterListProblem->sublist("Parameter").get("Dimension",2);
+        int 		dim		= parameterListProblem->sublist("Parameter").get("Dimension",2);
         string		meshType    	= parameterListProblem->sublist("Parameter").get("Mesh Type","structured");
         string		meshName    	= parameterListProblem->sublist("Parameter").get("Mesh Name","dfg_fsi_solid.mesh");
         string		meshDelimiter   = parameterListProblem->sublist("Parameter").get("Mesh Delimiter"," ");
-        int         n;
-        int 		m				= parameterListProblem->sublist("Parameter").get("H/h",5);
-        string      FEType        = parameterListProblem->sublist("Parameter").get("Discretization","P2");
+        int             n;
+        int 		m		= parameterListProblem->sublist("Parameter").get("H/h",5);
+        string          FEType          = parameterListProblem->sublist("Parameter").get("Discretization","P2");
         // Set Number of ranks for coarse problem 
-        int numProcsCoarseSolve = parameterListProblem->sublist("General").get("Mpi Ranks Coarse",0);
-        int size = comm->getSize() - numProcsCoarseSolve;
+        int numProcsCoarseSolve         = parameterListProblem->sublist("General").get("Mpi Ranks Coarse",0);
+        int size                        = comm->getSize() - numProcsCoarseSolve;
 	// Timers
         Teuchos::RCP<Teuchos::Time> totalTime(Teuchos::TimeMonitor::getNewCounter("main: Total Time"));
         Teuchos::RCP<Teuchos::Time> buildMesh(Teuchos::TimeMonitor::getNewCounter("main: Build Mesh"));
