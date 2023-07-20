@@ -1,1 +1,0 @@
-/usr/bin/mpicxx   -pedantic -Wall -Wno-long-long -Wwrite-strings -Wshadow -Woverloaded-virtual -O3 -DNDEBUG CMakeFiles/SimpleCxx_HelloWorldTests.dir/SimpleCxx_HelloWorld_Tests.cpp.o -o SimpleCxx_HelloWorldTests.exe  ../src/libsimplecxx.a 

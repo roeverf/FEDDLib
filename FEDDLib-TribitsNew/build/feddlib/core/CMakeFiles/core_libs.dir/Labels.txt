@@ -1,5 +1,0 @@
-# Directory labels
- core
-# Source files and their labels
-/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/feddlib/core/CMakeFiles/core_libs
-/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/feddlib/core/CMakeFiles/core_libs.rule

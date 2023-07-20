@@ -1,1 +1,0 @@
-/usr/bin/mpicxx   -pedantic -Wall -Wno-long-long -Wwrite-strings -Wshadow -Woverloaded-virtual -O3 -DNDEBUG "CMakeFiles/simplecxx-helloworld.dir/SimpleCxx_HelloWorld_Prog.cpp.o" -o simplecxx-helloworld  -Wl,-rpath,:::::::::::::: libsimplecxx.a 

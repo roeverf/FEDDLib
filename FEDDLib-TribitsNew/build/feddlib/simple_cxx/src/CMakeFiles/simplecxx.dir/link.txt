@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsimplecxx.a CMakeFiles/simplecxx.dir/SimpleCxx_HelloWorld.cpp.o
-/usr/bin/ranlib libsimplecxx.a
