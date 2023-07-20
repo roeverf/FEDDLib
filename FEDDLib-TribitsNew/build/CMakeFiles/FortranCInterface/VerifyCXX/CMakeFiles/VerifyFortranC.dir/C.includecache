@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/VerifyC.c
+stdio.h
+-
+
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/main.c
+VerifyFortran.h
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/VerifyFortran.h
+
+VerifyFortran.h
+

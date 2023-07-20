@@ -1,0 +1,47 @@
+Change Dir: /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX
+
+Run Build Command(s):/usr/bin/make -f Makefile VerifyFortranC && /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -S/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify -B/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/make  -f CMakeFiles/Makefile2 VerifyFortranC
+make[1]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird betreten
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -S/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify -B/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX --check-build-system CMakeFiles/Makefile.cmake 0
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -E cmake_progress_start /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX/CMakeFiles 6
+/usr/bin/make  -f CMakeFiles/Makefile2 CMakeFiles/VerifyFortranC.dir/all
+make[2]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird betreten
+/usr/bin/make  -f CMakeFiles/VerifyFortran.dir/build.make CMakeFiles/VerifyFortran.dir/depend
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird betreten
+cd /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX && /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -E cmake_depends "Unix Makefiles" /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX/CMakeFiles/VerifyFortran.dir/DependInfo.cmake
+Scanning dependencies of target VerifyFortran
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird verlassen
+/usr/bin/make  -f CMakeFiles/VerifyFortran.dir/build.make CMakeFiles/VerifyFortran.dir/build
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird betreten
+[ 16%] Building Fortran object CMakeFiles/VerifyFortran.dir/VerifyFortran.f.o
+/usr/bin/mpif90 -DVERIFY_CXX -I/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX -O3 -c /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/VerifyFortran.f -o CMakeFiles/VerifyFortran.dir/VerifyFortran.f.o
+[ 33%] Linking Fortran static library libVerifyFortran.a
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -P CMakeFiles/VerifyFortran.dir/cmake_clean_target.cmake
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -E cmake_link_script CMakeFiles/VerifyFortran.dir/link.txt --verbose=1
+/usr/bin/ar qc libVerifyFortran.a CMakeFiles/VerifyFortran.dir/VerifyFortran.f.o
+/usr/bin/ranlib libVerifyFortran.a
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird verlassen
+[ 33%] Built target VerifyFortran
+/usr/bin/make  -f CMakeFiles/VerifyFortranC.dir/build.make CMakeFiles/VerifyFortranC.dir/depend
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird betreten
+cd /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX && /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -E cmake_depends "Unix Makefiles" /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX/CMakeFiles/VerifyFortranC.dir/DependInfo.cmake
+Scanning dependencies of target VerifyFortranC
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird verlassen
+/usr/bin/make  -f CMakeFiles/VerifyFortranC.dir/build.make CMakeFiles/VerifyFortranC.dir/build
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird betreten
+[ 50%] Building C object CMakeFiles/VerifyFortranC.dir/main.c.o
+/usr/bin/mpicc -DVERIFY_CXX -I/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX -O3 -DNDEBUG -o CMakeFiles/VerifyFortranC.dir/main.c.o -c /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/main.c
+[ 66%] Building C object CMakeFiles/VerifyFortranC.dir/VerifyC.c.o
+/usr/bin/mpicc -DVERIFY_CXX -I/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX -O3 -DNDEBUG -o CMakeFiles/VerifyFortranC.dir/VerifyC.c.o -c /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/VerifyC.c
+[ 83%] Building CXX object CMakeFiles/VerifyFortranC.dir/VerifyCXX.cxx.o
+/usr/bin/mpicxx -DVERIFY_CXX -I/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX -O3 -DNDEBUG -o CMakeFiles/VerifyFortranC.dir/VerifyCXX.cxx.o -c /home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/share/cmake-3.24/Modules/FortranCInterface/Verify/VerifyCXX.cxx
+[100%] Linking CXX executable VerifyFortranC
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -E cmake_link_script CMakeFiles/VerifyFortranC.dir/link.txt --verbose=1
+/usr/bin/mpicxx -O3 -DNDEBUG CMakeFiles/VerifyFortranC.dir/main.c.o CMakeFiles/VerifyFortranC.dir/VerifyC.c.o CMakeFiles/VerifyFortranC.dir/VerifyCXX.cxx.o -o VerifyFortranC  libVerifyFortran.a -lmpi_usempif08 -lmpi_usempi_ignore_tkr -lmpi_mpifh -lgfortran -lquadmath 
+make[3]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird verlassen
+[100%] Built target VerifyFortranC
+make[2]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird verlassen
+/home/roeverf/opt/spack/opt/spack/linux-ubuntu20.04-skylake/gcc-9.4.0/cmake-3.24.3-sx6opfd3ocvet6dgmv76efo4kol7zufp/bin/cmake -E cmake_progress_start /home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX/CMakeFiles 0
+make[1]: Verzeichnis „/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/build/CMakeFiles/FortranCInterface/VerifyCXX“ wird verlassen
+

@@ -1,0 +1,18 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/roeverf/opt/feddlib/FEDDLib-TribitsNew/feddlib/core/LinearAlgebra/tests/matrix.cpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"coreExes",
+			"coreExes",
+			"core"
+		],
+		"name" : "core_Matrix"
+	}
+}
